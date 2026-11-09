@@ -59,15 +59,9 @@ export default function Header() {
 
 
   const { data: session } = authClient.useSession();
-  console.log("Session Data:", { session, isPending, error });
+  console.log("Session Data:", session);
 
- useEffect(() => {
-    if (session && session.user) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [session]);
+
 
   return (
     <>
