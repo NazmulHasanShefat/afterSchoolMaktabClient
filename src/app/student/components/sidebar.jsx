@@ -17,6 +17,7 @@ import {
   X,
   User,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function StudentSidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -49,6 +50,18 @@ export default function StudentSidebar() {
       ],
     },
   ];
+
+  const logoutHandler = async () => {
+    // Implement your logout logic here
+    console.log("Logging out...");
+    await authClient.signOut({
+  fetchOptions: {
+    onSuccess: () => {
+      window.location.href = "/"; // redirect after sign out
+    },
+  },
+});
+  }
 
   return (
     <div className="flex font-sans">
@@ -209,6 +222,7 @@ export default function StudentSidebar() {
               <button
                 className="p-1.5 text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                 title="Log out"
+                onClick={logoutHandler}
               >
                 <LogOut className="w-4 h-4" />
               </button>

@@ -58,7 +58,7 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
 
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session } = authClient.useSession();
   console.log("Session Data:", { session, isPending, error });
 
  useEffect(() => {
