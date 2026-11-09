@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 import { MessageCircle, Calendar, Phone, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function AdmissionsBanner({ triggerTrialModal }) {
+export default function AdmissionsBanner() {
   const { t } = useLanguage();
 
   return (
-    <section className="w-full bg-[#FAF8F5] py-12 sm:py-20">
+    <section className="w-full bg-[#FAF8F5] dark:bg-black py-12 sm:py-20">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
         <motion.div
           className="bg-gradient-to-r from-[#0F2042] via-[#1E3A8A] to-[#0F2042] rounded-3xl p-6 sm:p-12 shadow-2xl text-white relative overflow-hidden"
@@ -65,7 +65,7 @@ export default function AdmissionsBanner({ triggerTrialModal }) {
               {/* WhatsApp Direct Action Button */}
               <a
                 className="flex items-center justify-center gap-2 px-5 py-3.5 bg-[#006c4a] text-white font-bold text-sm rounded-xl shadow-md hover:bg-[#005137] transition-all text-center glow-emerald"
-                href="https://wa.me/18005550199"
+                href="https://wa.me/+8801787110752"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -76,7 +76,7 @@ export default function AdmissionsBanner({ triggerTrialModal }) {
               {/* Booking Free Trial Link */}
               <button
                 className="flex items-center justify-center gap-2 px-5 py-3.5 bg-[#1E3A8A] text-white font-bold text-sm rounded-xl shadow-md hover:bg-[#0F2042] transition-all text-center glow-blue cursor-pointer"
-                onClick={() => triggerTrialModal("Fast-Track Admissions Card")}
+            
               >
                 <Calendar className="w-5 h-5 text-blue-200" />
                 <span>{t.admissions.bookCalendar}</span>
