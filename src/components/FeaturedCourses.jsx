@@ -58,7 +58,7 @@ export default function FeaturedCourses({ triggerTrialModal }) {
         "https://lh3.googleusercontent.com/aida-public/AB6AXuDQPqqUsw-_KV2u9lfNpMXKVzqZvNotFNWK0PCyjf8Nxks6o2xFikXYlwiTZrFbm_FZdKic0jk6hzPGjGb4VIryndiysqjWiKtjjzmoM4hqo5F9GIOUU0CeqWf-2DFHkJqbs9ytr8UelfpYD0BYBOXrdoKarbknSTeKMjuleq2RWIOMtGouOltDryImyaaFDjTyU_T8khKkXLXmr2K-F7VwqNtVhkNnE0tVVxCNW-5rSbmQDmgIOXd5",
       description:
         lang === "bn"
-          ? "সনদপ্রাপ্ত হাফেজদের সরাসরি তত্ত্বাবধানে নতুন পড়া (সবক), পেছনের পড়া (সবকী) এবং মজবুত রিভিশন (মনজিল) চক্র।"
+          ? "সনদপ্রাপ্ত হাফেজদের সরাসরি তত্ত্বাবধানে নতুন পড়া (সবক), পেছনের পড়া (সবকী) এবং মজবুত রিভিশন (মনজিল) চক্র।"
           : "Rigorous Sabaq (new lesson), Sabqi (recent revisions), and Manzil (retention) cycle supervised by certified Huffaz with Mutashabihat mastery.",
       duration: "60 mins",
       frequency: lang === "bn" ? "সপ্তাহে ৪ বা ৫ দিন" : "4x or 5x/wk",
@@ -90,7 +90,7 @@ export default function FeaturedCourses({ triggerTrialModal }) {
       : COURSES.filter((c) => c.category === activeCategory);
 
   return (
-    <section className="w-full bg-[#FAF8F5] py-12 sm:py-20" id="featured-courses">
+    <section className="w-full bg-[#FAF8F5] dark:bg-[#0B1329] py-12 sm:py-20 transition-colors duration-300" id="featured-courses">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
         {/* Section Title & Dynamic Filter Tabs */}
         <motion.div
@@ -101,19 +101,19 @@ export default function FeaturedCourses({ triggerTrialModal }) {
           transition={{ duration: 0.5 }}
         >
           <div className="flex flex-col gap-2">
-            <span className="text-xs sm:text-sm text-[#1E3A8A] font-bold uppercase tracking-wider">
+            <span className="text-xs sm:text-sm text-[#1E3A8A] dark:text-blue-400 font-bold uppercase tracking-wider">
               {t.courses.tag}
             </span>
-            <h2 className="text-2xl sm:text-4xl text-[#0F2042] font-extrabold tracking-tight">
+            <h2 className="text-2xl sm:text-4xl text-[#0F2042] dark:text-white font-extrabold tracking-tight">
               {t.courses.title}
             </h2>
-            <p className="text-xs sm:text-sm text-[#444651]">
+            <p className="text-xs sm:text-sm text-[#444651] dark:text-slate-300">
               {t.courses.sub}
             </p>
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-[#e7eeff] p-1.5 rounded-2xl border border-blue-200 shadow-inner">
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#e7eeff] dark:bg-[#1E293B] p-1.5 rounded-2xl border border-blue-200 dark:border-blue-900/50 shadow-inner">
             {[
               { id: "all", label: t.courses.tabAll },
               { id: "quran", label: t.courses.tabQuran },
@@ -125,8 +125,8 @@ export default function FeaturedCourses({ triggerTrialModal }) {
                 onClick={() => setActiveCategory(tab.id)}
                 className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                   activeCategory === tab.id
-                    ? "bg-white text-[#0F2042] shadow-md glow-blue"
-                    : "text-[#444651] hover:text-[#0F2042] hover:bg-white/50"
+                    ? "bg-white dark:bg-[#131F3B] text-[#0F2042] dark:text-white shadow-md glow-blue"
+                    : "text-[#444651] dark:text-slate-400 hover:text-[#0F2042] dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
                 }`}
               >
                 {tab.label}
@@ -146,7 +146,7 @@ export default function FeaturedCourses({ triggerTrialModal }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between hover:shadow-xl transition-all border border-[#E5E1D8] group hover:border-[#1E3A8A]/40"
+                className="bg-white dark:bg-[#131F3B] rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between hover:shadow-xl transition-all border border-[#E5E1D8] dark:border-[#1E293B] group hover:border-[#1E3A8A]/40 dark:hover:border-blue-500/40"
               >
                 <div>
                   {/* Card Image */}
@@ -156,7 +156,7 @@ export default function FeaturedCourses({ triggerTrialModal }) {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       src={course.image}
                     />
-                    <span className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-md rounded-lg text-xs font-bold text-[#0F2042] shadow-xs">
+                    <span className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 dark:bg-[#0F2042]/90 backdrop-blur-md rounded-lg text-xs font-bold text-[#0F2042] dark:text-white shadow-xs">
                       {course.badge}
                     </span>
                     <span
@@ -172,40 +172,40 @@ export default function FeaturedCourses({ triggerTrialModal }) {
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="w-3.5 h-3.5 fill-amber-500" />
                       ))}
-                      <span className="text-xs text-[#444651] font-semibold ml-1">
+                      <span className="text-xs text-[#444651] dark:text-slate-400 font-semibold ml-1">
                         ({course.rating})
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-[#0F2042] leading-snug group-hover:text-[#1E3A8A] transition-colors">
+                    <h3 className="text-base font-bold text-[#0F2042] dark:text-white leading-snug group-hover:text-[#1E3A8A] dark:group-hover:text-blue-400 transition-colors">
                       {course.title}
                     </h3>
 
-                    <p className="text-xs text-[#444651] leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#444651] dark:text-slate-300 leading-relaxed line-clamp-2">
                       {course.description}
                     </p>
 
-                    <div className="flex items-center justify-between pt-3 border-t border-[#E5E1D8] text-[#444651] text-xs">
+                    <div className="flex items-center justify-between pt-3 border-t border-[#E5E1D8] dark:border-[#1E293B] text-[#444651] dark:text-slate-400 text-xs">
                       <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-[#1E3A8A]" /> {course.duration}
+                        <Clock className="w-3.5 h-3.5 text-[#1E3A8A] dark:text-blue-400" /> {course.duration}
                       </span>
                       <span className="flex items-center gap-1">
-                        <CalendarDays className="w-3.5 h-3.5 text-[#006c4a]" /> {course.frequency}
+                        <CalendarDays className="w-3.5 h-3.5 text-[#006c4a] dark:text-emerald-400" /> {course.frequency}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Pricing Footer */}
-                <div className="p-4 bg-[#f0f3ff] flex items-center justify-between border-t border-[#E5E1D8]">
+                <div className="p-4 bg-[#f0f3ff] dark:bg-[#1B2A4A] flex items-center justify-between border-t border-[#E5E1D8] dark:border-[#1E293B]">
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-[#444651] font-medium">{t.courses.monthlyBatches}</span>
-                    <span className="text-lg text-[#0F2042] font-extrabold">
-                      {course.price} <span className="text-xs font-normal text-[#444651]">/mo</span>
+                    <span className="text-[10px] text-[#444651] dark:text-slate-400 font-medium">{t.courses.monthlyBatches}</span>
+                    <span className="text-lg text-[#0F2042] dark:text-white font-extrabold">
+                      {course.price} <span className="text-xs font-normal text-[#444651] dark:text-slate-400">/mo</span>
                     </span>
                   </div>
                   <button
-                    className="px-4 py-2 bg-[#1E3A8A] text-white text-xs font-bold rounded-xl hover:bg-[#0F2042] transition-colors shadow-md cursor-pointer"
+                    className="px-4 py-2 bg-[#1E3A8A] dark:bg-emerald-600 text-white text-xs font-bold rounded-xl hover:bg-[#0F2042] dark:hover:bg-emerald-500 transition-colors shadow-md cursor-pointer"
                     onClick={() => triggerTrialModal(course.title)}
                   >
                     {t.courses.freeTrial}

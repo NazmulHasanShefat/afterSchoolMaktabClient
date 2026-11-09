@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { User, CheckCircle, ArrowRight, UserCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
+export default function FacultyShowcase() {
   const { lang, t } = useLanguage();
 
   const FACULTY = [
@@ -51,7 +51,7 @@ export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
   ];
 
   return (
-    <section className="w-full bg-[#f0f3ff] py-12 sm:py-20" id="faculty-section">
+    <section className="w-full bg-[#f0f3ff] dark:bg-[#0B1329] py-12 sm:py-20 transition-colors duration-300" id="faculty-section">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
         {/* Section Header */}
         <motion.div
@@ -62,20 +62,19 @@ export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
           transition={{ duration: 0.5 }}
         >
           <div className="flex flex-col gap-2 max-w-2xl">
-            <span className="text-xs sm:text-sm text-[#006c4a] font-bold uppercase tracking-wider">
+            <span className="text-xs sm:text-sm text-[#006c4a] dark:text-emerald-400 font-bold uppercase tracking-wider">
               {t.faculty.tag}
             </span>
-            <h2 className="text-2xl sm:text-4xl text-[#0F2042] font-extrabold tracking-tight">
+            <h2 className="text-2xl sm:text-4xl text-[#0F2042] dark:text-white font-extrabold tracking-tight">
               {t.faculty.title}
             </h2>
-            <p className="text-xs sm:text-sm text-[#444651] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#444651] dark:text-slate-300 leading-relaxed">
               {t.faculty.sub}
             </p>
           </div>
 
           <button
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-[#1E3A8A] hover:text-[#0F2042] font-bold shrink-0 hover:underline cursor-pointer"
-            onClick={() => triggerToast("Viewing full directory of 24 Sanad-accredited scholars...")}
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-[#1E3A8A] dark:text-blue-400 hover:text-[#0F2042] dark:hover:text-blue-300 font-bold shrink-0 hover:underline cursor-pointer"
           >
             <span>{t.faculty.viewAllBtn}</span>
             <ArrowRight className="w-4 h-4" />
@@ -87,7 +86,7 @@ export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
           {FACULTY.map((faculty, index) => (
             <motion.div
               key={faculty.id}
-              className="bg-white rounded-2xl p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between gap-5 border border-[#E5E1D8] group hover:border-[#1E3A8A]/40"
+              className="bg-white dark:bg-[#131F3B] rounded-2xl p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between gap-5 border border-[#E5E1D8] dark:border-[#1E293B] group hover:border-[#1E3A8A]/40 dark:hover:border-blue-500/40"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -95,24 +94,24 @@ export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
             >
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3.5">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#dee8ff] flex items-center justify-center text-[#1E3A8A] font-bold text-xl overflow-hidden shrink-0 shadow-inner group-hover:scale-105 transition-transform">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#dee8ff] dark:bg-[#1E293B] flex items-center justify-center text-[#1E3A8A] dark:text-blue-300 font-bold text-xl overflow-hidden shrink-0 shadow-inner group-hover:scale-105 transition-transform">
                     {faculty.type === "female" ? (
-                      <UserCheck className="w-8 h-8 text-[#006c4a]" />
+                      <UserCheck className="w-8 h-8 text-[#006c4a] dark:text-emerald-400" />
                     ) : (
-                      <User className="w-8 h-8 text-[#1E3A8A]" />
+                      <User className="w-8 h-8 text-[#1E3A8A] dark:text-blue-400" />
                     )}
                   </div>
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-base sm:text-lg text-[#0F2042] font-extrabold">
+                      <h3 className="text-base sm:text-lg text-[#0F2042] dark:text-white font-extrabold">
                         {faculty.name}
                       </h3>
                       <CheckCircle className="w-4 h-4 text-[#10B981] fill-[#10B981]/20 shrink-0" />
                     </div>
-                    <span className="text-xs text-[#006c4a] font-bold">
+                    <span className="text-xs text-[#006c4a] dark:text-emerald-400 font-bold">
                       {faculty.role}
                     </span>
-                    <span className="text-[11px] text-[#444651]">
+                    <span className="text-[11px] text-[#444651] dark:text-slate-400">
                       {faculty.exp}
                     </span>
                   </div>
@@ -123,25 +122,24 @@ export default function FacultyShowcase({ triggerTrialModal, triggerToast }) {
                   {faculty.tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="px-2.5 py-0.5 rounded-full bg-[#e7eeff] text-[11px] text-[#0F2042] font-semibold"
+                      className="px-2.5 py-0.5 rounded-full bg-[#e7eeff] dark:bg-[#1E293B] text-[11px] text-[#0F2042] dark:text-blue-200 font-semibold"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#444651] leading-relaxed">
+                <p className="text-xs sm:text-sm text-[#444651] dark:text-slate-300 leading-relaxed">
                   {faculty.desc}
                 </p>
               </div>
 
-              <div className="pt-4 flex items-center justify-between border-t border-[#E5E1D8]">
-                <span className="text-xs text-[#006c4a] font-bold">
+              <div className="pt-4 flex items-center justify-between border-t border-[#E5E1D8] dark:border-[#1E293B]">
+                <span className="text-xs text-[#006c4a] dark:text-emerald-400 font-bold">
                   {faculty.students}
                 </span>
                 <button
-                  className="text-xs text-[#1E3A8A] font-bold hover:underline cursor-pointer"
-                  onClick={() => triggerTrialModal(`Teacher: ${faculty.name}`)}
+                  className="text-xs text-[#1E3A8A] dark:text-blue-400 font-bold hover:underline cursor-pointer"
                 >
                   {faculty.cta}
                 </button>

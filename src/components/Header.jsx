@@ -19,7 +19,6 @@ import { ThemeSwitch } from "./theme/ThemeSwitch";
 export default function Header() {
   const [trialModalOpen, setTrialModalOpen] = useState(false);
   const [modalContext, setModalContext] = useState("General Admission");
-  const [toast, setToast] = useState({ visible: false, message: "" });
   const pathname = usePathname();
 
   // User login state (default is false)
@@ -27,10 +26,6 @@ export default function Header() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { lang, toggleLanguage, t } = useLanguage();
-
-  const triggerToast = (message) => {
-    setToast({ visible: true, message });
-  };
 
   const triggerTrialModal = (contextTitle) => {
     setModalContext(contextTitle || "General Admission");
@@ -57,15 +52,11 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-
-  const { data: session } = authClient.useSession();
-  console.log("Session Data:", session);
-
-
+  const { data: session, isPending, error, refetch } = authClient.useSession();
 
   return (
     <>
-      <header className="sticky top-0 left-0 right-0 z-40 bg-white/95 dark:bg-white/95 backdrop-blur-md shadow-[0_2px_15px_rgba(15,32,66,0.06)] border-b border-[#E5E1D8] transition-all">
+      <header className="sticky top-0 left-0 right-0 z-40 bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-zinc-800 transition-colors duration-200">
         <div className="h-16 sm:h-20 w-full max-w-7xl mx-auto px-3 sm:px-6 xl:px-8 flex items-center justify-between gap-2 sm:gap-4">
           {/* Logo & Brand */}
           <Link
@@ -85,10 +76,10 @@ export default function Header() {
               }}
             />
             <div className="flex min-w-0 flex-col">
-              <span className="truncate text-xs sm:text-lg text-[#0F2042] font-extrabold leading-tight tracking-tight">
+              <span className="truncate text-xs sm:text-lg text-slate-900 dark:text-white font-extrabold leading-tight tracking-tight">
                 After School Maktab
               </span>
-              <span className="hidden sm:block truncate text-[10px] sm:text-xs text-[#006c4a] font-semibold uppercase tracking-wider">
+              <span className="hidden sm:block truncate text-[10px] sm:text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
                 {t.nav.subtitle}
               </span>
             </div>
@@ -102,7 +93,11 @@ export default function Header() {
             {t.links.map((link) => (
               <Link
                 key={link.name}
-                className={`whitespace-nowrap text-sm font-semibold hover:text-blue-900 ${pathname === link.href ? "text-blue-900" : "text-black"} transition-colors`}
+                className={`whitespace-nowrap text-sm font-semibold transition-colors ${
+                  pathname === link.href
+                    ? "text-emerald-600 dark:text-emerald-400"
+                    : "text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400"
+                }`}
                 href={link.href}
               >
                 {link.name}
@@ -116,57 +111,48 @@ export default function Header() {
             <button
               onClick={() => {
                 toggleLanguage();
-                triggerToast(
-                  lang === "en"
-                    ? "ভাষা পরিবর্তন করা হয়েছে: বাংলা"
-                    : "Language switched to English",
-                );
               }}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-full bg-[#f0f3ff] text-[#0F2042] border border-blue-200 text-xs font-bold hover:bg-[#dee8ff] transition-all cursor-pointer shadow-xs whitespace-nowrap"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-full bg-slate-100 dark:bg-zinc-900 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-zinc-700 text-xs font-bold hover:bg-slate-200 dark:hover:bg-zinc-800 transition-all cursor-pointer shadow-xs whitespace-nowrap"
               title="Switch Language (English / বাংলা)"
             >
-              <Globe className="w-3.5 h-3.5 text-[#1E3A8A]" />
+              <Globe className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="hidden min-[420px]:inline">
                 {lang === "en" ? "বাংলা" : "English"}
               </span>
             </button>
 
             <button
-              className="hidden xl:flex items-center gap-1 px-3.5 py-2 rounded-lg text-[#0F2042] font-semibold text-sm hover:bg-[#e7eeff] transition-colors"
-              onClick={() =>
-                triggerToast("Student & Parent Portal Login Modal")
-              }
+              className="hidden xl:flex items-center gap-1 px-3.5 py-2 rounded-lg text-slate-700 dark:text-slate-200 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-zinc-900 transition-colors"
             >
               {t.nav.portal}
             </button>
 
             {/* Conditional Rendering: User Profile Icon vs Register Button */}
-            {isLoggedIn ? (
+            {session ? (
               <Link
                 href="/student/profile"
-                className="hidden xl:flex w-9 h-9 rounded-full bg-[#00236f] items-center justify-center shrink-0 text-white cursor-pointer hover:bg-[#1E3A8A] transition-colors shadow-sm"
-             
+                className="hidden xl:flex w-9 h-9 rounded-full bg-emerald-600 dark:bg-emerald-700 items-center justify-center shrink-0 text-white cursor-pointer hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors shadow-sm"
                 title="Parent Account"
               >
                 <User className="w-4 h-4" />
-               
               </Link>
             ) : (
               <Link
                 href="/register"
-                className="hidden xl:inline-flex items-center justify-center px-4 py-2 rounded-xl text-black hover:text-white font-bold text-xs sm:text-sm shadow-md hover:bg-[#059669] transition-all whitespace-nowrap"
+                className="hidden xl:inline-flex items-center justify-center px-4 py-2 rounded-xl text-slate-800 dark:text-slate-100 hover:text-white font-bold text-xs sm:text-sm shadow-md bg-slate-100 dark:bg-zinc-800 hover:bg-emerald-600 dark:hover:bg-emerald-600 transition-all whitespace-nowrap"
               >
                 Register
               </Link>
             )}
 
             <Link
-              className="hidden min-[420px]:flex items-center justify-center px-3 sm:px-4 2xl:px-5 py-2 sm:py-2.5 rounded-xl bg-[#1E3A8A] text-white font-bold text-xs sm:text-sm shadow-md hover:bg-[#0F2042] hover:shadow-lg transition-all transform hover:-translate-y-0.5 shrink-0 glow-blue whitespace-nowrap"
+              className="hidden min-[420px]:flex items-center justify-center px-3 sm:px-4 2xl:px-5 py-2 sm:py-2.5 rounded-xl bg-emerald-600 dark:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md hover:bg-emerald-700 dark:hover:bg-emerald-600 hover:shadow-lg transition-all transform hover:-translate-y-0.5 shrink-0 whitespace-nowrap"
               href="/demo-class"
             >
               <span className="2xl:hidden">{t.nav.freeTrialShort}</span>
             </Link>
-             <ThemeSwitch />
+            
+            <ThemeSwitch />
 
             {/* Mobile Navigation Toggle Button */}
             <button
@@ -177,7 +163,7 @@ export default function Header() {
               }
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation"
-              className="xl:hidden p-2 rounded-lg text-[#0F2042] hover:bg-[#e7eeff] transition-colors"
+              className="xl:hidden p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-900 transition-colors"
               onClick={toggleMobileMenu}
             >
               <Menu className="w-6 h-6" />
@@ -188,11 +174,13 @@ export default function Header() {
 
       {/* Offcanvas Mobile Navigation Drawer */}
       <div
-        className={`xl:hidden fixed inset-0 z-50 transition-visibility duration-300 ${mobileMenuOpen ? "visible" : "invisible delay-300"}`}
+        className={`xl:hidden fixed inset-0 z-50 transition-visibility duration-300 ${
+          mobileMenuOpen ? "visible" : "invisible delay-300"
+        }`}
       >
         {/* Backdrop Overlay */}
         <div
-          className={`fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
+          className={`fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
             mobileMenuOpen ? "opacity-100" : "opacity-0"
           }`}
           onClick={closeMobileMenu}
@@ -205,18 +193,18 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation Drawer"
-          className={`fixed inset-y-0 right-0 w-full max-w-xs sm:w-80 bg-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out transform ${
+          className={`fixed inset-y-0 right-0 w-full max-w-xs sm:w-80 bg-white dark:bg-black shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out transform border-l border-slate-200 dark:border-zinc-800 ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           {/* Header Bar inside Offcanvas */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#E5E1D8]">
-            <span className="text-xs font-bold text-[#0F2042] uppercase tracking-wider">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-zinc-800">
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
               Navigation Menu
             </span>
             <button
               aria-label="Close navigation menu"
-              className="p-1 rounded-lg text-slate-500 hover:text-[#0F2042] hover:bg-slate-100 transition-colors"
+              className="p-1 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-900 transition-colors"
               onClick={closeMobileMenu}
             >
               <X className="w-6 h-6" />
@@ -233,36 +221,39 @@ export default function Header() {
                 key={link.name}
                 href={link.href}
                 onClick={closeMobileMenu}
-                className="flex items-center justify-between px-3 py-2 rounded-lg text-[#0F2042] font-semibold text-sm hover:bg-[#e7eeff] transition-colors"
+                className={`flex items-center justify-between px-3 py-2 rounded-lg font-semibold text-sm transition-colors ${
+                  pathname === link.href
+                    ? "bg-slate-100 dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400"
+                    : "text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-900 hover:text-emerald-600 dark:hover:text-emerald-400"
+                }`}
               >
                 <span>{link.name}</span>
-                <ChevronRight className="w-4 h-4 text-[#0F2042]" />
+                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500" />
               </Link>
             ))}
           </nav>
 
           {/* Action Footer inside Offcanvas */}
-          <div className="p-5 border-t border-[#E5E1D8] bg-slate-50/50 flex flex-col gap-2.5">
+          <div className="p-5 border-t border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-950/50 flex flex-col gap-2.5">
             {!isLoggedIn && (
               <Link
                 href="/register"
                 onClick={closeMobileMenu}
-                className="w-full py-2.5 rounded-xl bg-[#047857] text-white font-bold text-sm text-center shadow-md hover:bg-[#059669] transition-all"
+                className="w-full py-2.5 rounded-xl bg-emerald-600 dark:bg-emerald-700 text-white font-bold text-sm text-center shadow-md hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-all"
               >
                 Register
               </Link>
             )}
             <button
-              className="w-full py-2.5 rounded-xl bg-[#e7eeff] text-[#0F2042] font-semibold text-sm text-center hover:bg-[#dee8ff] transition-colors"
+              className="w-full py-2.5 rounded-xl bg-slate-200 dark:bg-zinc-800 text-slate-800 dark:text-slate-100 font-semibold text-sm text-center hover:bg-slate-300 dark:hover:bg-zinc-700 transition-colors"
               onClick={() => {
                 closeMobileMenu();
-                triggerToast("Student & Parent Portal Login Modal");
               }}
             >
               {t.nav.portal}
             </button>
             <button
-              className="w-full py-2.5 rounded-xl bg-[#10B981] text-[#0F2042] font-bold text-sm text-center shadow-md hover:bg-[#059669] hover:text-white transition-all glow-emerald"
+              className="w-full py-2.5 rounded-xl bg-emerald-600 dark:bg-emerald-700 text-white font-bold text-sm text-center shadow-md hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-all"
               onClick={() => {
                 closeMobileMenu();
                 triggerTrialModal("Mobile Nav Trial");
@@ -271,12 +262,12 @@ export default function Header() {
               {t.nav.bookTrial}
             </button>
             <a
-              className="w-full py-2 rounded-xl bg-[#e7eeff] text-[#0F2042] font-semibold text-xs text-center flex items-center justify-center gap-2 hover:bg-[#dee8ff] transition-colors"
+              className="w-full py-2 rounded-xl bg-slate-100 dark:bg-zinc-900 text-slate-800 dark:text-slate-200 font-semibold text-xs text-center flex items-center justify-center gap-2 hover:bg-slate-200 dark:hover:bg-zinc-800 transition-colors border border-slate-200 dark:border-zinc-800"
               href="https://wa.me/18005550199"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <MessageCircle className="w-4 h-4 text-[#006c4a]" /> WhatsApp
+              <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> WhatsApp
               Admissions Desk
             </a>
           </div>
